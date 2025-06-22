@@ -1,0 +1,29 @@
+# Node modules - sempre ignorar a pasta de dependências
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ambiente local - variáveis secretas
+.env
+
+# Pasta Prisma runtime (não é necessário versionar)
+prisma/runtime/
+
+# Prisma Client gerado (pode ser regenerado)
+node_modules/@prisma/client/
+
+# Build outputs (se usar)
+dist/
+build/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor (VSCode)
+.vscode/
