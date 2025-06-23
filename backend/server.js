@@ -44,5 +44,5 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`🟢 Servidor rodando na porta ${PORT}`);
-  console.log(`🔗 Acesse: http://localhost:${PORT}/api/teste`);
+  console.log(`🔗 Acesse: https://system-login-lab.onrender.com/api/teste`);
 });
