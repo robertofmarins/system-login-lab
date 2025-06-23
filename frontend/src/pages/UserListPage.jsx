@@ -12,7 +12,7 @@ export default function UserListPage() {
   }
 
   useEffect(() => {
-    fetch("https://system-login-lab.onrender.com")
+    fetch("https://system-login-lab.onrender.com/api/auth/users")
       .then(res => res.json())
       .then(data => setUsers(data))
       .catch(err => console.error("Erro ao buscar usuários:", err))
@@ -23,9 +23,10 @@ export default function UserListPage() {
   if (!confirmar) return;
 
   try {
-    const res = await fetch(`https://system-login-lab.onrender.com${id}`, {
-      method: "DELETE"
-    });
+    const res = await fetch(`https://system-login-lab.onrender.com/api/auth/users/${id}`, {
+  method: "DELETE"
+});
+
 
     if (res.ok) {
       setUsers(users.filter(user => user.id !== id));
