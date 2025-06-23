@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const BASE_URL = "https://system-login-lab.onrender.com";
+
 export default function AuthForm({ isLogin }) {
   const [form, setForm] = useState({
     nome: "",
@@ -41,28 +43,28 @@ export default function AuthForm({ isLogin }) {
       let data;
       if (isLogin) {
         // Login
-         data = await axios.post(
-          "http://localhost:4000/api/auth/login",
+        data = await axios.post(
+          `${BASE_URL}/api/auth/login`,
           {
             email: form.email,
             password: form.senha,
           }
         );
 
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.data.token);
         localStorage.setItem(
           "user",
           JSON.stringify({
-            id: data.userId,
-            name: data.name,
-            email: data.email,
+            id: data.data.userId,
+            name: data.data.name,
+            email: data.data.email,
           })
         );
         navigate("/users");
       } else {
         // Cadastro
-         data = await axios.post(
-          "http://localhost:4000/api/auth/register",
+        data = await axios.post(
+          `${BASE_URL}/api/auth/register`,
           {
             name: form.nome,
             email: form.email,
