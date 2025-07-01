@@ -8,7 +8,7 @@ const app = express();
 // Configuração melhorada do CORS (mantenha como está)
 app.use(cors({
   origin: function (origin, callback) {
-    const allowedOrigins = ['http://localhost:5173', 'https://system-login-lab.vercel.app'];
+    const allowedOrigins = ['http://localhost:5173', 'https://system-login-lab.vercel.app', 'https://app.robertomarins.com.br'];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
