@@ -1,7 +1,7 @@
+// src/app/api/auth/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-// OBS: App Router usa `context` como segundo parâmetro
 export async function DELETE(
   request: NextRequest,
   context: { params: { id: string } }
@@ -17,7 +17,10 @@ export async function DELETE(
       where: { id },
     });
 
-    return NextResponse.json({ message: 'Usuário excluído com sucesso', user });
+    return NextResponse.json(
+      { message: 'Usuário excluído com sucesso', user },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Erro ao excluir usuário:', error);
     return NextResponse.json({ error: 'Erro ao excluir usuário' }, { status: 500 });
