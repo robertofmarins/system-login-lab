@@ -1,16 +1,24 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '../../../../lib/prisma';
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = parseInt(params.id);
 
-  if (req.method !== 'DELETE') return res.status(405).end();
+  if (isNaN(id)) {
+    return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+  }
 
   try {
-    const user = await prisma.user.delete({ where: { id: Number(id) } });
-    res.json({ message: 'Usuário excluído com sucesso', user });
+    const user = await prisma.user.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ message: 'Usuário excluído com sucesso', user });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao excluir usuário' });
+    console.error('Erro ao excluir usuário:', error);
+    return NextResponse.json({ error: 'Erro ao excluir usuário' }, { status: 500 });
   }
 }
