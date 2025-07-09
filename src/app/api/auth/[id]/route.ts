@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+// OBS: App Router usa `context` como segundo parâmetro
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: { id: string } }
 ) {
-  const id = parseInt(params.id);
+  const id = parseInt(context.params.id);
 
   if (isNaN(id)) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
