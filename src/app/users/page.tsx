@@ -32,7 +32,7 @@ export default function UserListPage() {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`/api/auth/users/${id}`, {
+      const res = await fetch(`/api/auth/${id}`, {
         method: "DELETE",
       });
 
