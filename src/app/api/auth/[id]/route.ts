@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
-) {
+): Promise<NextResponse> {
   const id = parseInt(params.id);
 
   if (isNaN(id)) {
