@@ -1,14 +1,12 @@
+// src/app/api/auth/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
-
-export async function DELETE(request: NextRequest, context: Params) {
-  const id = parseInt(context.params.id);
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } } // <- A tipagem FICA AQUI inline
+) {
+  const id = parseInt(params.id);
 
   if (isNaN(id)) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
@@ -25,6 +23,9 @@ export async function DELETE(request: NextRequest, context: Params) {
     );
   } catch (error) {
     console.error('Erro ao excluir usuário:', error);
-    return NextResponse.json({ error: 'Erro ao excluir usuário' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Erro ao excluir usuário' },
+      { status: 500 }
+    );
   }
 }
