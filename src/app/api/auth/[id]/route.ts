@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 type Params = {
@@ -7,8 +7,8 @@ type Params = {
   };
 };
 
-export async function DELETE(request: Request, { params }: Params) {
-  const id = parseInt(params.id);
+export async function DELETE(request: NextRequest, { params }: Params) {
+  const id = parseInt(params.id, 10);
 
   if (isNaN(id)) {
     return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
@@ -23,7 +23,7 @@ export async function DELETE(request: Request, { params }: Params) {
   } catch (error) {
     console.error('Erro ao excluir usuário:', error);
     return NextResponse.json(
-      { error: 'Erro ao excluir usuário' }, 
+      { error: 'Erro ao excluir usuário' },
       { status: 500 }
     );
   }
