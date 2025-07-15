@@ -12,6 +12,7 @@ interface User {
 
 export default function UserListPage() {
   const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true); // controle de carregamento
   const router = useRouter();
 
   const handleLogout = () => {
@@ -21,11 +22,29 @@ export default function UserListPage() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      // não está logado, redireciona para login
+      router.replace("/");
+      return;
+    }
+
+    // só quando tiver token, busca os usuários
     fetch('/api/auth/users')
-      .then(res => res.json())
-      .then(data => setUsers(data))
-      .catch(err => console.error("Erro ao buscar usuários:", err));
-  }, []);
+      .then(res => {
+        if (!res.ok) throw new Error("Falha ao buscar usuários");
+        return res.json();
+      })
+      .then(data => {
+        setUsers(data);
+        setLoading(false); // terminou o carregamento
+      })
+      .catch(err => {
+        console.error("Erro ao buscar usuários:", err);
+        setLoading(false);
+      });
+  }, [router]);
 
   const deleteUser = async (id: number) => {
     const confirmar = confirm("Tem certeza que deseja excluir este usuário?");
@@ -46,6 +65,15 @@ export default function UserListPage() {
       alert("Erro na exclusão.");
     }
   };
+
+  if (loading) {
+    // aqui pode colocar um spinner, ou nada, enquanto carrega/verifica token
+    return (
+    <div className="flex items-center justify-center h-screen">
+      <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
