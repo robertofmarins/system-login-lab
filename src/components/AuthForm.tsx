@@ -94,7 +94,9 @@ export default function AuthForm({ isLogin }: AuthFormProps) {
         window.location.reload();
       }
     } catch (error: unknown) {
-  if (error instanceof Error) {
+  if (axios.isAxiosError(error) && error.response) {
+    setError(error.response.data.error || "Erro ao processar. Tente novamente mais tarde.");
+  } else if (error instanceof Error) {
     setError(error.message);
   } else {
     setError("Erro ao processar. Tente novamente mais tarde.");
